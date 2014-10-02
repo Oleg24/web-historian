@@ -11,27 +11,44 @@ var options = {
 }
 
 exports.handleRequest = function (req, res) {
-  console.log('line20 '+req.url);
   if(req.method === "GET"){
     // check if req.url is in array returned by archive.readListOfUrls
-    var urlList;
-    archive.readListOfUrls(function(string){
-      string.trim();
-      urlList = string.split('\n');
-    });
+    if(req.url === '/') {
+      req.url = '/index.html';
+        res.writeHead(200, httpHelper.headers);
 
-    if(urlArray && urlArray.indexOf(req.url) >= 0){
-      res.writeHead(200, httpHelper.headers);
-
-      fs.readFile(archive.paths.siteAssets+req.url, options, function(error, contents){
-        if(error) { throw error };
-        res.end(contents);
-      })
+        fs.readFile(archive.paths.siteAssets+req.url, options, function(error, contents){
+          if(error) { throw error };
+          console.log(contents);
+          console.log('28');
+          res.end(contents);
+        })
     } else {
-      res.writeHead(404, httpHelper.headers);
-      // res.redirect(archive.paths.siteAssets+"/loading.html");
-      res.end();
+      archive.readListOfUrls(function(string){
+        string.trim();
+        var urlArray = string.split('\n');
+console.log('30');
+console.log(req.url)
+      console.log(urlArray);
+        if(urlArray && urlArray.indexOf(req.url.slice(1)) >= 0){
+          res.writeHead(200, httpHelper.headers);
+
+          fs.readFile(archive.paths.archivedSites+req.url, options, function(error, contents){
+            if(error) { throw error };
+            console.log(contents);
+            console.log('28');
+            res.end(contents);
+          })
+        } else {
+          res.writeHead(404, httpHelper.headers);
+          // res.redirect(archive.paths.siteAssets+"/loading.html");
+          res.end();
+        }
+      });
     }
+
+
+
 
   }
   if(req.method === "POST"){

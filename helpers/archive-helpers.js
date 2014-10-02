@@ -34,9 +34,9 @@ exports.readListOfUrls = function(callback){
   var urlList;
   fs.readFile(exports.paths.list, options, function(error, data){
     if( error ) throw error;
-    urlList = data.toString().split('\n');
-    callback(urlList);
-    console.log("inside the callback"+urlList);
+    console.log(data)
+    console.log('in helpers')
+    callback(data);
   });
 };
 
