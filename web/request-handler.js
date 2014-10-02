@@ -17,6 +17,7 @@ var options = {
 
 exports.handleRequest = function (req, res) {
   console.log('test');
+  console.log('line20 '+req.url);
   if(req.method === "GET"){
     if(req.url === '/'){
       res.writeHead(200, headers);
@@ -32,11 +33,23 @@ exports.handleRequest = function (req, res) {
           if(error) { throw error }
           res.end(contents);
         })
+    } else {
+      res.writeHead(404, headers);
+      res.end();
     }
     console.log("req method is "+req.method);
   }
   if(req.method === "POST"){
-    //fs.writeFile(archive.paths.list, function)
+    req.on('data', function(site){
+      var site = site.substring(4);
+      console.log("archives"+ archive.paths.list)
+      fs.appendFile(archive.paths.list, site+'\n', function(error){
+        if(error) { throw error };
+        console.log('line43 '+site)
+      })
+    res.writeHead(302, headers);
+    res.end(site)
+    })
   }
 };
 

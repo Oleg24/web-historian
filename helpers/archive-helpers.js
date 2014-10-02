@@ -22,12 +22,21 @@ exports.initialize = function(pathsObj){
     exports.paths[type] = path;
   });
 };
+var options = {
+  encoding: 'utf8'
+}
 
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
-
+exports.readListOfUrls = function(callback){
+  fs.readFile(exports.paths.list, options, function(error, data){
+    if( error ) throw error;
+    callback(data.split('\n'));
+    // var results = data.split('\n');
+    // console.log(results);
+    // return results;
+  });
 };
 
 exports.isUrlInList = function(){
