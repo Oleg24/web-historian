@@ -31,28 +31,34 @@ var options = {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback){
+  var urlList;
   fs.readFile(exports.paths.list, options, function(error, data){
     if( error ) throw error;
-    console.log('line 36 '+typeof data)
-    callback(data.toString());
-
-    // var results = data.split('\n');
-    // console.log(results);
-    // return results;
+    urlList = data.toString().split('\n');
+    callback(urlList);
+    console.log("inside the callback"+urlList);
   });
 };
 
-exports.isUrlInList = function(callback, target){
+exports.isUrlInList = function(list, url){
   // read list of urls
   // check if target url is in the array of urls
-  // if(exports.readListOfUrls())
+  _.contains(list , url);
+
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(list, url){
+  list.push(url);
+  fs.appendFile(exports.paths.list, url);
+  console.log(list);
 };
 
-exports.isURLArchived = function(){
+exports.isURLArchived = function(list, url){
+  // do we have the source code?
+  // if no... make the web workers get the source code
+
 };
 
-exports.downloadUrls = function(){
+exports.downloadUrls = function(list){
+
 };
