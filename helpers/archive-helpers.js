@@ -22,6 +22,7 @@ exports.initialize = function(pathsObj){
     exports.paths[type] = path;
   });
 };
+
 var options = {
   encoding: 'utf8'
 }
@@ -32,14 +33,19 @@ var options = {
 exports.readListOfUrls = function(callback){
   fs.readFile(exports.paths.list, options, function(error, data){
     if( error ) throw error;
-    callback(data.split('\n'));
+    console.log('line 36 '+typeof data)
+    callback(data.toString());
+
     // var results = data.split('\n');
     // console.log(results);
     // return results;
   });
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(callback, target){
+  // read list of urls
+  // check if target url is in the array of urls
+  // if(exports.readListOfUrls())
 };
 
 exports.addUrlToList = function(){

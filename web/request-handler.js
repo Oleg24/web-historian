@@ -19,24 +19,31 @@ exports.handleRequest = function (req, res) {
   console.log('test');
   console.log('line20 '+req.url);
   if(req.method === "GET"){
-    if(req.url === '/'){
+    // check if req.url is in array returned by archive.readListOfUrls
+    var urlList;
+    archive.readListOfUrls(function(string){
+      console.log('25'+ string)
+      string.trim();
+      urlList = string.split('\n');
+      console.log(urlList)
+
+    });
+    console.log('line 27 ' +urlList)
+    // console.log("array below?")
+    // console.log(urlArray);
+    if(urlArray && urlArray.indexOf(req.url) >= 0){
       res.writeHead(200, headers);
 
-      fs.readFile(archive.paths.siteAssets+'/index.html', options, function(error, contents){
+      fs.readFile(archive.paths.siteAssets+req.url, options, function(error, contents){
         if(error) { throw error };
         res.end(contents);
       })
-    } else if(req.url === "/www.google.com"){
-        res.writeHead(200, headers);
-
-        fs.readFile(archive.paths.archivedSites+"/www.google.com", options, function(error, contents){
-          if(error) { throw error }
-          res.end(contents);
-        })
     } else {
       res.writeHead(404, headers);
+      // res.redirect(archive.paths.siteAssets+"/loading.html");
       res.end();
     }
+
     console.log("req method is "+req.method);
   }
   if(req.method === "POST"){
@@ -47,8 +54,10 @@ exports.handleRequest = function (req, res) {
         if(error) { throw error };
         console.log('line43 '+site)
       })
-    res.writeHead(302, headers);
-    res.end(site)
+    res.writeHead(302,
+      { Location: archive.paths.siteAssets+"/loading.html"}
+      );
+    res.end()
     })
   }
 };
