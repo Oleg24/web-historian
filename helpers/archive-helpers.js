@@ -59,6 +59,25 @@ exports.isURLArchived = function(list, url){
 
 };
 
-exports.downloadUrls = function(list){
+exports.downloadUrls = function(url){
+// console.log(req.url);
+//     console.log('22');
 
+//     var getOptions = {
+//       host: req.url.slice(1),
+//     }
+//     console.log(getOptions.host)
+//     http.get( getOptions, function(error, res) {
+//       console.log('working');
+//       var body = '';
+//       res.on('data', function(chunk){
+//         body += chunk;
+//       });
+//       res.on('end', function(){
+//         console.log(body)
+//       });
+//       if (error) throw error;
+//       console.log(26);
+//       console.log(res);
+//     });
 };
